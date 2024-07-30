@@ -1,7 +1,7 @@
 FROM alpine:3
 
 # Getting dependencies
-RUN apk add docker-cli bzip2 jq
+RUN apk add docker-cli bzip2 jq curl
 RUN wget "https://github.com/restic/restic/releases/download/v0.17.0/restic_0.17.0_linux_amd64.bz2" -O /usr/local/bin/restic.bz2
 RUN bunzip2 /usr/local/bin/restic.bz2
 RUN chmod +x /usr/local/bin/restic
