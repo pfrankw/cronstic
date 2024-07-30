@@ -60,12 +60,20 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock # Needed for BACKUP_VOLUMES_CRON
       - data:/volumes/data
 
-  otherservice:
-    ...
+  testone:
+    image: alpine:3
+    init: true
     volumes:
-    - data:/data
+      - data:/data
+    command: sh -c "while true; do sleep 1; done"
+
+  testtwo:
+    image: alpine:3
+    init: true
+    volumes:
+      - data:/data
+    command: sh -c "while true; do sleep 1; done"
 
 volumes:
   data:
-
 ```
