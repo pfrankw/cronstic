@@ -33,7 +33,7 @@ backup() {
 
   # This way we get only the containers that are running and of which we are mounting the volumes under /volumes
 
-  cts=$(get_mounts "$volumes" | cut -d ' ' -f 2 | uniq | grep -v "$(myself)")
+  cts=$(get_mounts "$volumes" | cut -d ' ' -f 2 | uniq | grep -v $(myself))
 
   echo "Stopping containers"
   docker stop $cts
