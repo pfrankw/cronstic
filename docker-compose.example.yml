@@ -9,7 +9,13 @@ services:
       RESTIC_REPOSITORY: s3:something.example.com/bucket
       AWS_ACCESS_KEY: ACCESSKEY
       AWS_SECRET_ACCESS_KEY: SECRETACCESSKEY
+      # BACKUP_CRON: "0 0 * * *"
+      # BACKUP_ARGS: "/somepath --some-parameter"
       BACKUP_VOLUMES_CRON: "0 0 * * *" # Backing up all mounted volumes at midnight
+      FORGET_CRON: "0 15 * * *" # Running forget at 15:00
+      FORGET_ARGS: "--prune --keep-daily 10"
+      CHECK_CRON: "0 17 * * *" # Running check at 17:00
+      CHECK_ARGS: "--some-check-argument"
       COMMANDS_PRE: |-
         echo "Executing COMMANDS_PRE"
 
@@ -23,17 +29,17 @@ services:
         echo "Executing COMMANDS_FAIL"
 
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # This is needed if you use BACKUP_VOLUMES_CRON
+      - /var/run/docker.sock:/var/run/docker.sock # Needed for BACKUP_VOLUMES_CRON
       - data:/volumes/data
 
-  alpineone:
+  testone:
     image: alpine:3
     init: true
     volumes:
       - data:/data
     command: sh -c "while true; do sleep 1; done"
 
-  albinetwo:
+  testtwo:
     image: alpine:3
     init: true
     volumes:
