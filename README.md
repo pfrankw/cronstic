@@ -1,24 +1,23 @@
 # Introduction
 
 This is a very small and simple project that aims to ease the backup/forget/check of data with restic via docker.
-I have found other alternatives but they tend to use custom-made software, when cronstic instead only needs few small `shell scripts`, `crond` and `restic` of course.
+I have found other alternatives but they tend to use custom-made software, when `cronstic` instead only needs few small `shell scripts`, `crond` and `restic` of course.
 
 # How it works
 
 It's pretty simple. The crond is controlled by four variables:
-- `BACKUP_VOLUMES_CRON` - By specifying this variable cronstic identifies the containers that are the owners of the volumes under `/volumes`, stops them, performs the backup of `/volumes`, and re-starts the containers. ⚠️ Warning: Do not modify the cronstic container's `hostname`. It is used to identify itself when stopping other containers. Use `RESTIC_HOST` instead. ⚠️
-- `BACKUP_CRON` - By specifying this variable cronstic calls `restic backup $BACKUP_ARGS` and the various `COMMANDS_*`.
-- `FORGET_CRON` - By specifing this variable cronstic calls `restic forget $FORGET_ARGS`.
-- `CHECK_CRON` - By specifing this variable cronstic calls `restic check $FORGET_ARGS`.
+- `BACKUP_VOLUMES_CRON` - By defining this variable `cronstic` identifies the containers that are the owners of the volumes under `/volumes`, stops them, performs the backup of `/volumes`, and re-starts the containers. ⚠️ Warning: Do not modify the cronstic container's `hostname`. It is used to identify itself when stopping other containers. Use `RESTIC_HOST` instead. ⚠️
+- `BACKUP_CRON` - By defining this variable `cronstic` calls `restic backup $BACKUP_ARGS` and the various `COMMANDS_*`.
+- `FORGET_CRON` - By defining this variable `cronstic` calls `restic forget $FORGET_ARGS`.
+- `CHECK_CRON` - By defining this variable `cronstic` calls `restic check $FORGET_ARGS`.
 
 In order to perform some action in different backup outcomes you can use these:
-- `COMMANDS_PRE` - Specifies the commands to be executed BEFORE backup.
-- `COMMANDS_POST` - Specifies the commands to be executed AFTER backup, no matter the outcome.
-- `COMMANDS_SUCCESS` - Specifies the commands to be executed AFTER backup only in case of success.
-- `COMMANDS_FAIL` - Specifies the commands to be executed AFTER backup only in case of failure.
+- `COMMANDS_PRE` - Defines the commands to be executed **before** backup.
+- `COMMANDS_POST` - Defines the commands to be executed **after** backup, no matter the outcome.
+- `COMMANDS_SUCCESS` - Defines the commands to be executed **after** backup only in case of **success**.
+- `COMMANDS_FAIL` - Defines the commands to be executed **after** backup only in case of **failure**.
 
 The other variables are the classic restic environment variables.
-
 
 # Other restic commands
 
