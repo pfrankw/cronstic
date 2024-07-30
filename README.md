@@ -6,7 +6,7 @@ I have found other alternatives but they tend to use custom-made software, when 
 # How it works
 
 It's pretty simple. The crond is controlled by four variables:
-- `BACKUP_VOLUMES_CRON` - By specifying this variable cronstic identifies the containers that are the owners of the volumes under `/volumes`, stops them, performs the backup of `/volumes`, and re-starts the containers.
+- `BACKUP_VOLUMES_CRON` - By specifying this variable cronstic identifies the containers that are the owners of the volumes under `/volumes`, stops them, performs the backup of `/volumes`, and re-starts the containers. ⚠️ Warning: Do not modify the cronstic container's `hostname`. It is used to identify itself when stopping other containers. Use `RESTIC_HOST` instead. ⚠️
 - `BACKUP_CRON` - By specifying this variable cronstic calls `restic backup $BACKUP_ARGS` and the various `COMMANDS_*`.
 - `FORGET_CRON` - By specifing this variable cronstic calls `restic forget $FORGET_ARGS`.
 - `CHECK_CRON` - By specifing this variable cronstic calls `restic check $FORGET_ARGS`.
@@ -18,6 +18,7 @@ In order to perform some action in different backup outcomes you can use these:
 - `COMMANDS_FAIL` - Specifies the commands to be executed AFTER backup only in case of failure.
 
 The other variables are the classic restic environment variables.
+
 
 # Other restic commands
 
@@ -57,8 +58,7 @@ services:
         echo "Executing COMMANDS_FAIL"
 
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      # This is needed if you use BACKUP_VOLUMES_CRON as the script stops docker containers that share the volumes inside /volumes.
+      - /var/run/docker.sock:/var/run/docker.sock # Needed for BACKUP_VOLUMES_CRON
       - data:/volumes/data
 
   otherservice:
