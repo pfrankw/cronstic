@@ -1,0 +1,39 @@
+services:
+  cronstic:
+    image: ghcr.io/pfrankw/cronstic:latest
+    init: true
+    environment:
+      BACKUP_VOLUMES_CRON: "* * * * *"
+      COMMANDS_PRE: |-
+        echo "Executing COMMANDS_PRE"
+
+      COMMANDS_POST: |-
+        echo "Executing COMMANDS_POST"
+
+      COMMANDS_SUCCESS: |-
+        echo "Executing COMMANDS_SUCCESS"
+
+      COMMANDS_FAIL: |-
+        echo "Executing COMMANDS_FAIL"
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - data:/volumes/data
+
+  alpineone:
+    image: alpine:3
+    init: true
+    volumes:
+      - data:/data
+    command: sh -c "while true; do sleep 1; done"
+
+  albinetwo:
+    image: alpine:3
+    init: true
+    volumes:
+      - data:/data
+    command: sh -c "while true; do sleep 1; done"
+
+
+volumes:
+  data:
