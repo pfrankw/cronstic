@@ -38,18 +38,18 @@ backup() {
   echo "Stopping containers"
   docker stop $cts
 
-  $COMMANDS_PRE
+  eval "$COMMANDS_PRE"
 
   echo "Backing up /volumes"
   restic backup /volumes
 
   if [ $? -eq 0 ]; then
-    $COMMANDS_SUCCESS
+    eval "$COMMANDS_SUCCESS"
   else
-    $COMMANDS_FAIL
+    eval "$COMMANDS_FAIL"
   fi
 
-  $COMMANDS_POST
+  eval "$COMMANDS_POST"
 
   echo "Starting containers"
   docker start $cts

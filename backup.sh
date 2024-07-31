@@ -1,13 +1,13 @@
 #!/bin/sh
 
-$COMMANDS_PRE
+eval "$COMMANDS_PRE"
 
 restic backup $@
 
 if [ $? -eq 0 ]; then
-  $COMMANDS_SUCCESS
+  eval "$COMMANDS_SUCCESS"
 else
-  $COMMANDS_FAIL
+  eval "$COMMANDS_FAIL"
 fi
 
-$COMMANDS_POST
+eval "$COMMANDS_POST"
