@@ -1,10 +1,20 @@
 FROM alpine:3
 
 # Getting dependencies
-RUN apk add docker-cli bzip2 jq curl
-RUN wget "https://github.com/restic/restic/releases/download/v0.17.0/restic_0.17.0_linux_amd64.bz2" -O /usr/local/bin/restic.bz2
-RUN bunzip2 /usr/local/bin/restic.bz2
-RUN chmod +x /usr/local/bin/restic
+RUN apk add --no-cache docker-cli bzip2 jq curl
+
+# Set architecture environment variable
+ARG ARCH
+RUN if [ "$(uname -m)" = "x86_64" ]; then \
+        ARCH=amd64; \
+    elif [ "$(uname -m)" = "aarch64" ]; then \
+        ARCH=arm64; \
+    else \
+        echo "Unsupported architecture"; exit 1; \
+    fi && \
+    wget "https://github.com/restic/restic/releases/download/v0.17.0/restic_0.17.0_linux_${ARCH}.bz2" -O /usr/local/bin/restic.bz2 && \
+    bunzip2 /usr/local/bin/restic.bz2 && \
+    chmod +x /usr/local/bin/restic
 
 # Copying commands
 COPY backup_volumes.sh /usr/local/bin/backup_volumes.sh
