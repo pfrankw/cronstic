@@ -1,7 +1,6 @@
 services:
   cronstic:
     image: ghcr.io/pfrankw/cronstic:latest
-    init: true # without init it's not possible to stop the container with SIGTERM
     # env_file: restic.env # Better put restic vars into a separate file
     environment:
       RESTIC_HOST: example
