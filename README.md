@@ -61,14 +61,12 @@ services:
 
   testone:
     image: alpine:3
-    init: true
     volumes:
       - data:/data
     command: sh -c "while true; do sleep 1; done"
 
   testtwo:
     image: alpine:3
-    init: true
     volumes:
       - data:/data
     command: sh -c "while true; do sleep 1; done"
