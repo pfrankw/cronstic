@@ -1,7 +1,7 @@
 FROM alpine:3
 
 # Getting dependencies
-RUN apk add --no-cache docker-cli bzip2 jq curl
+RUN apk add --no-cache docker-cli kubectl bzip2 jq curl
 
 # Set architecture environment variable
 ARG ARCH
