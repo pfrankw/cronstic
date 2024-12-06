@@ -4,6 +4,14 @@ myself() {
   hostname
 }
 
+is_kube() {
+  if [ -f /var/run/secrets/kubernetes.io/serviceaccount/token ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 volumes() {
   # Inspect own container to find out which volumes are actually mounted at /volumes and print their name
   docker inspect $(myself) --format '{{json .Mounts}}' | jq -r ".[] | select(.Destination | startswith(\"/volumes\")) | .Name"
