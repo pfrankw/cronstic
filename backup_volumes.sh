@@ -46,6 +46,8 @@ backup_docker() {
   echo "Stopping containers"
   docker stop $cts
 
+  sleep 10
+
   eval "$COMMANDS_PRE"
 
   echo "Backing up /volumes"
